@@ -6,48 +6,47 @@ namespace SnakeAndLadder
 {
     class SnakeAndLadderComputation
     {
-        public const int player = 1;
-        public const int playerposition = 0;
-        public const int Ladder = 1;
-        public const int Snake = 2;
-        public const int NoPlay = 3;
+        public static int PlayerPosition = 0;
+        const int No_Play = 0;
+        const int ladder = 1;
+        const int snake = 2;
         public static void GameStart()
         {
+            int counter = 0;
             int exactwinningposition = 100;
-            while (playerposition <= exactwinningposition)
+            Random ranval = new Random();
+            while (PlayerPosition < exactwinningposition)
             {
-                while (playerposition != 100)
+                while (PlayerPosition != exactwinningposition)
                 {
-                    Random random = new Random();
-                    int diceroll = random.Next(1, 7);
-                    int option = random.Next(1, 4);
-                    switch (option)
+                    int diceroll = ranval.Next(1, 7);
+                    counter++;
+                    int check_play = ranval.Next(3);
                     {
-                        case Ladder:
-                            int playerPosition = diceroll + playerposition;
-                            if (playerposition > exactwinningposition)
-                            {
-                                Console.WriteLine("player position is:" + playerPosition);
-                            }
-                            //Console.WriteLine("position of the player is:" + playerPosition);
-                            break;
-                        case Snake:
-                            int playerPosition1 = playerposition - diceroll;
-                            if (playerPosition1 < 0)
-                            {
-                                Console.WriteLine("Got Snake:" + playerposition);
-                                //Console.WriteLine("position of the player is:"+playerposition);
-                            }
-
-                            break;
-                        default:
-                            Console.WriteLine("position of the player is:" + playerposition);
-                            break;
+                        switch (check_play)
+                        {
+                            case 1:
+                                PlayerPosition += diceroll;
+                                if (PlayerPosition > exactwinningposition)
+                                {
+                                    PlayerPosition = exactwinningposition;
+                                    PlayerPosition -= diceroll;
+                                }
+                                break;
+                            case 2:
+                                PlayerPosition -= diceroll;
+                                if (PlayerPosition < 0)
+                                {
+                                    PlayerPosition = 0;
+                                }
+                                break;
+                            case 0:
+                                break;
+                        }
                     }
-
                 }
-                Console.WriteLine("new position of the player is:" + playerposition);
-                Console.WriteLine("arrived at finish point");
+                Console.WriteLine("U arrived at the Finish Point: " + PlayerPosition);
+                Console.WriteLine("The number of times the dice played is: " + counter);
             }
         }
     }
